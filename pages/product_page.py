@@ -18,3 +18,15 @@ class ProductPage(BasePage):
         actual_price = self.browser.find_element(*ProductPageLocators.PRICE).text
         price_in_message = self.browser.find_element(*ProductPageLocators.BASKET_IS_NOW).text
         assert actual_price == price_in_message, 'price in message does not match the actual price'
+
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(*ProductPageLocators.NAME_IN_MESSAGE), \
+            "Success message is presented, but should not be"
+
+    def should_be_success_message(self):
+        assert self.is_element_present(*ProductPageLocators.NAME_IN_MESSAGE), \
+            "Success message is not presented, though it should be"
+
+    def should_disappear(self):
+        assert self.is_disappeared(*ProductPageLocators.NAME_IN_MESSAGE), \
+            "Success message hasn't disappeared"
