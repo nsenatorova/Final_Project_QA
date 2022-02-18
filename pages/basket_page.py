@@ -13,5 +13,5 @@ class BasketPage(BasePage):
         self.should_be_no_items()
         self.should_be_empty_text()
 
-    def should_be_items(self):
+    def should_be_items_in_basket(self):
         assert self.is_not_element_present(*BasketPageLocators.ITEMS), "Is empty but it shouldn't be"

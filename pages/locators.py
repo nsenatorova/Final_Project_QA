@@ -18,15 +18,14 @@ class LoginPageLocators:
 class ProductPageLocators:
     ADD_TO_BASKET = (By.CLASS_NAME, 'btn-add-to-basket')
     NAME = (By.CSS_SELECTOR, 'div.product_main > h1')
-    PRODUCT_ADDED_TO_CART_MESSAGE = (By.CSS_SELECTOR, 'alertinner')
+    SUCCESS_MESSAGE = (By.CSS_SELECTOR, 'alertinner')
     NAME_IN_MESSAGE = (By.CSS_SELECTOR, 'div.alertinner > strong')
     PRICE = (By.CSS_SELECTOR, 'div.product_main .price_color')
-    BASKET_IS_NOW = (By.CSS_SELECTOR, 'div.alertinner > p > strong')
+    SUM_IN_BASKET_NOW = (By.CSS_SELECTOR, 'div.alertinner > p > strong')
 
 
 class BasePageLocators:
     LOGIN_LINK = (By.CSS_SELECTOR, "#login_link")
-    LOGIN_LINK_INVALID = (By.CSS_SELECTOR, "#login_link_inc")
     BASKET = (By.CSS_SELECTOR, '.btn-group > a')
     USER_ICON = (By.CSS_SELECTOR, ".icon-user")
 
