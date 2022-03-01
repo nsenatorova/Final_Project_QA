@@ -1,4 +1,5 @@
 import random
+import allure
 import time
 
 from .base_page import BasePage
@@ -12,6 +13,7 @@ class LoginPage(BasePage):
         password = str(random.randint(111111111, 999999999))
         return email, password
 
+    @allure.step
     def register_new_user(self, email, password):
         email_input = self.browser.find_element(*LoginPageLocators.REGISTRATION_EMAIL)
         password_input = self.browser.find_element(*LoginPageLocators.REGISTRATION_PASSWORD)

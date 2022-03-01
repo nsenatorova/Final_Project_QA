@@ -1,8 +1,12 @@
+import sys
+
 import pytest
 
-from .pages.basket_page import BasketPage
-from .pages.login_page import LoginPage
-from .pages.main_page import MainPage
+sys.path.insert(1, '/Users/user/Final_Project_for_Stepik/')
+
+from pages.basket_page import BasketPage
+from pages.login_page import LoginPage
+from pages.main_page import MainPage
 
 link = "http://selenium1py.pythonanywhere.com/"
 

@@ -1,4 +1,5 @@
 import math
+import allure
 
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.common.exceptions import NoSuchElementException
@@ -15,10 +16,12 @@ class BasePage:
         self.url = url
         self.browser.implicitly_wait(timeout)
 
+    @allure.step
     def go_to_basket_page(self):
         link = self.browser.find_element(*BasePageLocators.BASKET)
         link.click()
 
+    @allure.step
     def go_to_login_page(self):
         link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
         link.click()
@@ -46,6 +49,7 @@ class BasePage:
 
         return True
 
+    @allure.step
     def solve_quiz_and_get_code(self):
         alert = self.browser.switch_to.alert
         x = alert.text.split(" ")[2]
@@ -67,5 +71,6 @@ class BasePage:
         assert self.is_element_present(*BasePageLocators.USER_ICON), "User icon is not presented," \
                                                                      " probably unauthorised user"
 
+    @allure.step
     def open(self):
         self.browser.get(self.url)

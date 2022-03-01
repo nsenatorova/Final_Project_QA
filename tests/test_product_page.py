@@ -1,12 +1,13 @@
-import time
+import sys
 
 import pytest
 
-from .pages.locators import BasePageLocators
-from .pages.base_page import BasePage
-from .pages.basket_page import BasketPage
-from .pages.login_page import LoginPage
-from .pages.product_page import ProductPage
+sys.path.insert(1, '/Users/user/Final_Project_for_Stepik/')
+
+from pages.base_page import BasePage
+from pages.basket_page import BasketPage
+from pages.login_page import LoginPage
+from pages.product_page import ProductPage
 
 link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/"
 
@@ -26,7 +27,7 @@ class TestUserAddToBasketFromProductPage:
         login_page.should_be_authorized_user()
 
     @pytest.mark.need_review
-    def test_user_can_add_product_to_basket(self, browser, link):
+    def test_user_can_add_product_to_basket(self, browser):
         page = ProductPage(browser, link)
         page.open()
         page.add_to_basket()
@@ -77,13 +78,8 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     basket_page.should_be_empty()
 
 
-@pytest.mark.parametrize('link',
-                         ["http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer0",
-                          pytest.param(
-                              "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer7",
-                              marks=pytest.mark.xfail)])
 @pytest.mark.need_review
-def test_guest_can_add_product_to_basket(browser, link):
+def test_guest_can_add_product_to_basket(browser):
     page = ProductPage(browser, link)
     page.open()
     page.add_to_basket()
