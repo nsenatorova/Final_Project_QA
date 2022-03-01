@@ -9,11 +9,11 @@ git clone https://github.com/nsenatorova/Final_Project_for_Stepik.git
 ```
 pip install requirements.txt
 ```
-3. В файлах с тестами прописать путь к проекту в строке
+3. Запустить тесты для ревью
 ```
-sys.path.insert(1, '/Users/user/Final_Project_for_Stepik/')
+python3 -m pytest -v --tb=line --language=en --alluredir=allure-report -m need_review
 ```
-4. Запустить тесты для ревью
+4. Сгенерировать отчет allure
 ```
-pytest -v --tb=line --language=en -m need_review
+allure serve allure-report/
 ```

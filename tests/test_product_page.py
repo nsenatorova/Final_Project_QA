@@ -1,8 +1,4 @@
-import sys
-
 import pytest
-
-sys.path.insert(1, '/Users/user/Final_Project_for_Stepik/')
 
 from pages.base_page import BasePage
 from pages.basket_page import BasketPage
