@@ -57,4 +57,4 @@ def pytest_runtest_makereport(item, call):
                 attachment_type=allure.attachment_type.PNG
             )
         except Exception as e:
-            print(f'Fail to take screen-shot: {format(e)}')
+            print(f'Fail to take screen-shot: {e}')
