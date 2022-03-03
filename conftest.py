@@ -36,15 +36,12 @@ def browser(request):
     browser.quit()
 
 
-parent_dir = '/Users/nsenatorova/Final_Project_for_Stepik/'
-
-
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
 def pytest_runtest_makereport(item, call):
     outcome = yield
     rep = outcome.get_result()
     if rep.when == 'call' and rep.failed:
-        directory = os.path.join(parent_dir, 'failures-screenshots/')
+        directory = os.path.join(os.path.dirname(__file__), 'failures-screenshots/')
         if not os.path.exists(directory):
             os.mkdir(directory)
         try:
