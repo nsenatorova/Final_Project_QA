@@ -1,3 +1,7 @@
+import os
+import time
+
+import allure
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -30,3 +34,27 @@ def browser(request):
     yield browser
     print("\nquit browser..")
     browser.quit()
+
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    rep = outcome.get_result()
+    if rep.when == 'call' and rep.failed:
+        directory = os.path.join(os.path.dirname(__file__), 'failures-screenshots/')
+        if not os.path.exists(directory):
+            os.mkdir(directory)
+        try:
+            if 'browser' in item.fixturenames:
+                web_driver = item.funcargs['browser']
+                web_driver.save_screenshot(os.path.join(directory, 'screenshot' + str(time.time()) + '.png'))
+            else:
+                print('Fail to take screen-shot')
+                return
+            allure.attach(
+                web_driver.get_screenshot_as_png(),
+                name='screenshot',
+                attachment_type=allure.attachment_type.PNG
+            )
+        except Exception as e:
+            print(f'Fail to take screen-shot: {e}')
