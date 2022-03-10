@@ -4,7 +4,8 @@ import time
 import allure
 import pytest
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.options import Options as ChromeOptions
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
 
 def pytest_addoption(parser):
@@ -20,16 +21,19 @@ def browser(request):
     user_language = request.config.getoption("language")
 
     if browser_name == "chrome":
-        options = Options()
+        options = ChromeOptions()
         options.add_experimental_option('prefs', {'intl.accept_languages': user_language})
+        options.add_argument('headless')
         print("\nstart chrome browser for test..")
         browser = webdriver.Chrome(options=options)
         request.cls.driver = browser
     elif browser_name == "firefox":
         fp = webdriver.FirefoxProfile()
         fp.set_preference("intl.accept_languages", user_language)
+        options = FirefoxOptions()
+        options.headless = True
         print("\nstart firefox browser for test..")
-        browser = webdriver.Firefox(firefox_profile=fp)
+        browser = webdriver.Firefox(firefox_profile=fp, options=options)
         request.cls.driver = browser
     else:
         raise pytest.UsageError("--browser_name should be chrome or firefox")

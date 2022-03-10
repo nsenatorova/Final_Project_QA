@@ -11,7 +11,7 @@ pip install requirements.txt
 ```
 3. Запустить тесты для ревью
 ```
-python3 -m pytest -v --tb=line --language=en --alluredir=allure-report -m need_review
+python3 -m pytest -n auto --language=en --browser_name=chrome --alluredir=allure-report -m need_review
 ```
 4. Сгенерировать отчет allure
 ```
