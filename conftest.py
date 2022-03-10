@@ -24,11 +24,13 @@ def browser(request):
         options.add_experimental_option('prefs', {'intl.accept_languages': user_language})
         print("\nstart chrome browser for test..")
         browser = webdriver.Chrome(options=options)
+        request.cls.driver = browser
     elif browser_name == "firefox":
         fp = webdriver.FirefoxProfile()
         fp.set_preference("intl.accept_languages", user_language)
         print("\nstart firefox browser for test..")
         browser = webdriver.Firefox(firefox_profile=fp)
+        request.cls.driver = browser
     else:
         raise pytest.UsageError("--browser_name should be chrome or firefox")
     yield browser
@@ -36,25 +38,40 @@ def browser(request):
     browser.quit()
 
 
-@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+@pytest.hookimpl(hookwrapper=True, tryfirst=True)
 def pytest_runtest_makereport(item, call):
     outcome = yield
     rep = outcome.get_result()
-    if rep.when == 'call' and rep.failed:
-        directory = os.path.join(os.path.dirname(__file__), 'failures-screenshots/')
-        if not os.path.exists(directory):
-            os.mkdir(directory)
+    setattr(item, "rep_" + rep.when, rep)
+    return rep
+
+
+@pytest.fixture(autouse=True)
+def take_screenshot_if_test_fail(request, browser):
+    yield request.cls.driver
+    directory = os.path.join(os.path.dirname(__file__), 'failures-screenshots/')
+    if not os.path.exists(directory):
+        os.mkdir(directory)
+    if request.node.rep_setup.failed:
         try:
-            if 'browser' in item.fixturenames:
-                web_driver = item.funcargs['browser']
-                web_driver.save_screenshot(os.path.join(directory, 'screenshot' + str(time.time()) + '.png'))
-            else:
-                print('Fail to take screen-shot')
-                return
             allure.attach(
-                web_driver.get_screenshot_as_png(),
+                request.cls.driver.get_screenshot_as_png(),
                 name='screenshot',
                 attachment_type=allure.attachment_type.PNG
             )
-        except Exception as e:
-            print(f'Fail to take screen-shot: {e}')
+            request.cls.driver.save_screenshot(os.path.join(directory, 'screenshot' + str(time.time()) + '.png'))
+        except:
+            pass
+    elif request.node.rep_setup.passed:
+        if request.node.rep_call.failed:
+            try:
+                allure.attach(
+                    request.cls.driver.get_screenshot_as_png(),
+                    name='screenshot',
+                    attachment_type=allure.attachment_type.PNG
+                )
+                request.cls.driver.save_screenshot(os.path.join(directory, 'screenshot' + str(time.time()) + '.png'))
+            except:
+                pass
+    else:
+        raise Exception
