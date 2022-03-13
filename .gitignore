@@ -4,3 +4,4 @@
 allure-report/
 failures-screenshots
 venv/
+geckodriver.log
