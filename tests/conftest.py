@@ -26,6 +26,7 @@ def browser(request):
         options.add_argument('headless')
         print("\nstart chrome browser for test..")
         browser = webdriver.Chrome(options=options)
+        browser.maximize_window()
         request.cls.driver = browser
     elif browser_name == "firefox":
         fp = webdriver.FirefoxProfile()
@@ -34,6 +35,7 @@ def browser(request):
         options.headless = True
         print("\nstart firefox browser for test..")
         browser = webdriver.Firefox(firefox_profile=fp, options=options)
+        browser.maximize_window()
         request.cls.driver = browser
     else:
         raise pytest.UsageError("--browser_name should be chrome or firefox")
@@ -53,7 +55,7 @@ def pytest_runtest_makereport(item, call):
 @pytest.fixture(autouse=True)
 def take_screenshot_if_test_fail(request, browser):
     yield request.cls.driver
-    directory = os.path.join(os.path.dirname(__file__), 'failures-screenshots/')
+    directory = os.path.join(os.path.dirname(__file__), '../failures-screenshots/')
     if not os.path.exists(directory):
         os.mkdir(directory)
     if request.node.rep_setup.failed:

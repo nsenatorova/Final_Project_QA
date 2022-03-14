@@ -7,11 +7,11 @@ git clone https://github.com/nsenatorova/Final_Project_for_Stepik.git
 ```
 2. Установить требуемые пакеты
 ```
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 3. Запустить тесты для ревью
 ```
-python3 -m pytest -n auto --language=en --browser_name=chrome --alluredir=allure-report -m need_review
+python3 -m pytest -n 2 --reruns 1 --language=en --browser_name=chrome --alluredir=allure-report -m need_review
 ```
 4. Сгенерировать отчет allure
 ```
