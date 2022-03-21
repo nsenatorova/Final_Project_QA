@@ -24,26 +24,25 @@ def browser(request):
     browser_name = request.config.getoption("browser_name")
     user_language = request.config.getoption("language")
     headless = request.config.getoption("headless")
-    x, y = request.config.getoption("window").split(',')
-    x, y = int(x), int(y)
+    width, height = request.config.getoption("window").split(',')
+    width, height = int(width), int(height)
 
     if browser_name == "chrome":
         options = ChromeOptions()
         options.add_experimental_option('prefs', {'intl.accept_languages': user_language})
-        if headless == "true":
-            options.add_argument('headless')
+        options.add_argument('headless') if headless == 'true' else None
         print("\nstart chrome browser for test..")
         browser = webdriver.Chrome(options=options)
-        browser.set_window_size(x, y)
+        browser.set_window_size(width, height)
         request.cls.driver = browser
     elif browser_name == "firefox":
         fp = webdriver.FirefoxProfile()
         fp.set_preference("intl.accept_languages", user_language)
         options = FirefoxOptions()
-        options.headless = True if headless else False
+        options.headless = True if headless == 'true' else False
         print("\nstart chrome browser for test..")
         browser = webdriver.Firefox(firefox_profile=fp, options=options)
-        browser.set_window_size(x, y)
+        browser.set_window_size(width, height)
         request.cls.driver = browser
     else:
         raise pytest.UsageError("--browser_name should be chrome or firefox")
