@@ -15,8 +15,8 @@ def pytest_addoption(parser):
                      help="Choose browser language")
     parser.addoption('--headless', action='store', default="true",
                      help="Choose launch mode")
-    parser.addoption('--window', action='store', default="0,0",
-                     help="Choose launch mode")
+    parser.addoption('--window', action='store', default="1920,1080",
+                     help="Choose window size")
 
 
 @pytest.fixture(scope="function")
@@ -32,29 +32,18 @@ def browser(request):
         options.add_experimental_option('prefs', {'intl.accept_languages': user_language})
         if headless == "true":
             options.add_argument('headless')
-        if x == 0 and y == 0:
-            options.add_argument("window-size=1920,1080")
-            print("\nstart chrome browser for test..")
-            browser = webdriver.Chrome(options=options)
-        else:
-            print("\nstart chrome browser for test..")
-            browser = webdriver.Chrome(options=options)
-            browser.set_window_size(x, y)
+        print("\nstart chrome browser for test..")
+        browser = webdriver.Chrome(options=options)
+        browser.set_window_size(x, y)
         request.cls.driver = browser
     elif browser_name == "firefox":
         fp = webdriver.FirefoxProfile()
         fp.set_preference("intl.accept_languages", user_language)
         options = FirefoxOptions()
-        if headless == "true":
-            options.headless = True
-        if x == 0 and y == 0:
-            options.add_argument("window-size=1920,1080")
-            print("\nstart chrome browser for test..")
-            browser = webdriver.Firefox(firefox_profile=fp, options=options)
-        else:
-            print("\nstart chrome browser for test..")
-            browser = webdriver.Firefox(firefox_profile=fp, options=options)
-            browser.set_window_size(x, y)
+        options.headless = True if headless else False
+        print("\nstart chrome browser for test..")
+        browser = webdriver.Firefox(firefox_profile=fp, options=options)
+        browser.set_window_size(x, y)
         request.cls.driver = browser
     else:
         raise pytest.UsageError("--browser_name should be chrome or firefox")

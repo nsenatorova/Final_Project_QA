@@ -11,8 +11,9 @@ pip install -r requirements.txt
 ```
 3. Запустить тесты для ревью
 ```
-python3 -m pytest -n 2 --reruns 1 --language=en --browser_name=chrome --alluredir=allure-report -m need_review
+python3 -m pytest -n 2 --reruns 1 --language=en --browser_name=chrome --window=1366,768 --headless=false --alluredir=allure-report -m need_review
 ```
+Если параметр размера окна не был передан, при запуске тестов будет использоваться размер окна 1920×1080; если не был передан параметр headless, браузер дефолтно будет запускаться в headless режиме
 4. Сгенерировать отчет allure
 ```
 allure serve allure-report/
