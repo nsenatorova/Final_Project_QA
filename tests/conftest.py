@@ -31,6 +31,8 @@ def browser(request):
         options = ChromeOptions()
         options.add_experimental_option('prefs', {'intl.accept_languages': user_language})
         options.add_argument('headless') if headless == 'true' else None
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-gpu')
         print("\nstart chrome browser for test..")
         browser = webdriver.Chrome(options=options)
         browser.set_window_size(width, height)
