@@ -21,5 +21,6 @@ allure serve allure-report/
 ```
 docker build --tag project .   
 
-docker run project
+docker-compose up -d tests allure
 ```
+После запуска контейнера allure новый отчет будет доступен на http://localhost:5050/allure-docker-service/latest-report

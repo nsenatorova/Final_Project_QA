@@ -7,7 +7,7 @@ services:
       context: .
       dockerfile: ./Dockerfile
     volumes:
-      - ${PWD}/allure-results:/app/allure-results
+      - ${PWD}/allure-results:/allure-results
   allure:
     image: "frankescobar/allure-docker-service"
     environment:

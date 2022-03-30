@@ -11,4 +11,4 @@ RUN CHROMEDRIVER_VERSION=`curl -sS chromedriver.storage.googleapis.com/LATEST_RE
     rm /tmp/chromedriver_linux64.zip && \
     chmod +x /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver && \
     ln -fs /opt/chromedriver-$CHROMEDRIVER_VERSION/chromedriver /usr/local/bin/chromedriver
-CMD [ "python3", "-m" , "pytest", "-n", "auto", "--alluredir==allure-results"]
+CMD [ "python3", "-m" , "pytest", "-n", "auto", "--alluredir=allure-results"]
